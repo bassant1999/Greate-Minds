@@ -1,4 +1,3 @@
-# bassant1999
 # Book management system
 
 ## overview
