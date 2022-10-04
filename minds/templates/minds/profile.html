@@ -1,0 +1,68 @@
+{% extends "minds/layout.html" %}
+
+{% block body %}
+    <!--  profile -->
+    <div class="container profile">
+        <div class="row">
+            <div class="col-md-2">
+                <i class="material-icons" style="font-size:150px;color:rgb(170, 237, 237)">account_circle</i>
+            </div>
+            <div class="col-md-10">
+                <h1>{{puser.username}}</h1>
+                <hr>
+                {% if user.is_authenticated %}
+                    {% if user.id != puser.id %}
+                        <a href="{% url 'chat' puser.id %}" class="btn btn-primary">chat</a>
+                        {% if follow == 0 %}
+                            <a href="{% url 'follow' puser.id %}" class="btn btn-primary">Follow</a>
+                            <br><br>
+                        {% else %}
+                            <a href="{% url 'unfollow' puser.id %}" class="btn btn-primary">UnFollow</a>
+                            <br><br>
+                        {% endif %}
+                    
+                    {% endif %} 
+                {% endif %}
+                
+                <p>Followers: <strong>{{numOfFollowers}}</strong></p>
+                <p>Following: <strong>{{numOfFollowings}}</strong></p>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="stories">
+        {% for story in stories %}
+            <div class="row">
+                <div class="col-md-4">
+                    {% if story.cover.name != "0"  %}
+                        <img src="../../../media/{{story.cover}}" alt ="image" class = "images">
+                    {% else %}
+                        <img src="/static/images/cover.png" alt ="image" class = "images">
+                    {% endif %} 
+                </div>
+                <div class="col-md-8">
+                    <h4 class="head">Story Details</h4>
+                    <hr>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'story' story.id %}" class="btn btn-primary">View Story</a>
+                    {% endif %}
+                    <hr>
+                    <h4>Written By: <a href="">{{story.writer.username}}</a></h4>
+                    <h4>Title: <strong>{{story.title}}</strong></h4>
+                    <p>
+                        <h4>Description:</h4>
+                        {{story.description}}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>    
+{% endblock %}
+
+{% block notify %}
+    {% if notificationsNum %}
+        <span class="notifications">
+            {{notificationsNum}}
+        </span>
+    {% endif %} 
+{% endblock %}

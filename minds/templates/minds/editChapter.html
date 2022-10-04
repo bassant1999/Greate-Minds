@@ -1,0 +1,33 @@
+{% extends "minds/layout.html" %}
+
+{% block body %}
+    {% if user.is_authenticated %}  
+        <div class="stories">
+            <form action = "{% url 'editChapter' chapter.id %}" method = "post">
+                {% csrf_token %}
+                <button type="submit" class="submit">Save</button>
+                <br>
+                <div class="mb-3">
+                    <h4>
+                        <br>
+                        <input type="text" name="title" class="form-control" value="{{chapter.title}}">
+                    </h4>
+                </div>
+                <div class="mb-3">
+                    <textarea class="form-control" name="content" rows="100">{{chapter.content}}</textarea>
+                </div>
+            </form>
+        </div>
+    {% else %}
+            Not signed in.
+    {% endif %}
+    
+{% endblock %}
+
+{% block notify %}
+    {% if notificationsNum %}
+        <span class="notifications">
+            {{notificationsNum}}
+        </span>
+    {% endif %} 
+{% endblock %}

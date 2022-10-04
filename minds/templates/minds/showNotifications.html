@@ -1,0 +1,33 @@
+{% extends "minds/layout.html" %}
+
+{% block body %}
+
+    {% if user.is_authenticated %}  
+        <div class="show-notifications">
+            {% for notification in notifications %}
+                <div class="row">
+                    {% if notification.read %}  
+                        <a href= "{{notification.url}}" class="col notification-read">
+                            {{notification.text}}
+                            <span class="date notify">
+                                {{notification.created_at}}
+                            </span> 
+                        </a>   
+                    {% else %} 
+                        <a href= "{{notification.url}}" data-id = "{{notification.id}}" class="col notification-unread" onclick="markread(this)">
+                            {{notification.text}}
+                            <span class="date notify">
+                                {{notification.created_at}}
+                            </span> 
+                        </a>  
+                    {% endif %}  
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        Not signed in.
+    {% endif %} 
+{% endblock %}
+
+{% block title %}Greate Minds -Notifications{% endblock %}
+

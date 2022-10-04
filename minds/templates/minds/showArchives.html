@@ -1,0 +1,67 @@
+{% extends "minds/layout.html" %}
+
+{% block body %}
+    {% if user.is_authenticated %}  
+        <div class="current-reads stories">
+            {% for archivedstory in archiveList %}
+                <div class="row story">
+                    <div class="col-md-4">
+                        {% if archivedstory.story.cover.name != "0"  %}
+                            <img src="../../../media/{{archivedstory.story.cover}}" alt ="image" class = "shadow p-3 mb-5 bg-white rounded images">
+                        {% else %}
+                            <img src="/static/images/cover.png" alt ="image" class = "shadow p-3 mb-5 bg-white rounded images">
+                        {% endif %} 
+                    </div>
+                    <div class="col-md-8">
+                        <h4 class="head">Story Details</h4>
+                        <hr>
+                        <div>
+                            <a onclick="add(this)" class="btn btn-primary">Add To Library</a>
+                            <div class="add-story">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="mine" id="fff1">
+                                    <label class="form-check-label" for="fff1">
+                                    My library
+                                    </label>
+                                </div>
+                                {% for readlist in readlists %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="{{readlist.title}}" id="ff{{readlist.id}}">
+                                        <label class="form-check-label" for="ff{{readlist.id}}">
+                                            {{readlist.title}}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                                <input type="hidden" value="{{archivedstory.story.id}}">
+                                <a onclick="addToReadLists(this)" class="btn btn-primary">Done</a>
+                            </div>
+                        </div>
+                        <div>
+                            <br>
+                            <a href="{% url 'story' archivedstory.story.id %}" class="btn btn-primary">Continue Reading</a>
+                            <a href="{% url 'unarchive' archivedstory.id %}" class="btn btn-primary">UnArchive</a>
+                        </div>
+                        <hr>
+                        <h5>Written By: <a href="">{{archivedstory.story.writer.username}}</a></h5>
+                        <h5>Title: <strong>{{archivedstory.story.title}}</strong></h5>
+                        <p>
+                            <h5>Description:</h5>
+                            {{archivedstory.story.description}}
+                        </p>
+                    </div>
+                </div>                 
+            {% endfor %}
+        </div>
+    {% else %}
+            Not signed in.
+    {% endif %}
+
+{% endblock %}
+
+{% block notify %}
+    {% if notificationsNum %}
+        <span class="notifications">
+            {{notificationsNum}}
+        </span>
+    {% endif %} 
+{% endblock %}

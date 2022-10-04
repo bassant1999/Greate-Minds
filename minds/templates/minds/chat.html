@@ -1,0 +1,83 @@
+{% extends "minds/layout.html" %}
+
+{% block body %}
+    {% if user.is_authenticated %}  
+        <div class="navbar-header chat-header ">
+            <i class="material-icons" style="font-size:40px; width:50px; margin-top: 10px; color:#F5E8E4">account_circle</i>
+            <a href="{% url 'profile' reciever.id %}"><h3 style="display: inline; color: #F5E8E4;">{{ reciever.username }}</h3></a>
+        </div>
+        <div class="chating">
+            {% for message in messages %}
+                {% if message.sender.id == user.id %}
+                    <div class="left">
+                        {% if message.message %}
+                            {{message.message}}
+                            <br>
+                        {% endif %} 
+                    </div>
+                {% else %}
+                    <div class="right">
+                        <div class="right-message">
+                            {% if message.message %}
+                                {{message.message}}
+                                <br>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %} 
+            {% endfor %}
+            <!-- send -->
+            <br>
+            <br>
+            <br> 
+        </div>
+        
+        
+        <div class="sending">
+            <div id="send-error">
+        
+            </div>
+            <form id="add-message" class="send" onsubmit="return chat();">
+                <input type="text" name="message" id="chat-message" placeholder="Type a Message" autofocus> 
+                <input type="hidden" name="id" value="{{reciever.id}}" id="chat-id">
+                <input type="submit" value ="Send">
+            </form>
+        </div>
+        
+        
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                window.scrollTo(0, document.body.scrollHeight);
+                // document.querySelector('.chating').style.height = document.body.offsetHeight;
+                if (window.innerHeight+window.scrollY < document.body.offsetHeight){
+                    // alert("hi");
+                    document.querySelector('.chating').style.height = "fit-content";
+                }
+        
+                const list = document.querySelector('.chating');
+                // list.removeChild(list.lastElementChild);
+                // list.removeChild(list.lastElementChild);
+            
+                
+            })
+        </script>
+    {% else %}
+            Not signed in.
+    {% endif %}
+
+{% endblock %}
+
+{% block title %}Greate Minds -Chat{% endblock %}
+
+{% block notify %}
+    {% if notificationsNum %}
+        <span class="notifications">
+            {{notificationsNum}}
+        </span>
+    {% endif %} 
+{% endblock %}
+
+
+
+

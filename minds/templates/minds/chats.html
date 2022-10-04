@@ -1,0 +1,81 @@
+{% extends "minds/layout.html" %}
+
+{% block body %}
+    {% if user.is_authenticated %}  
+        <form id="search">
+            <div class="mb-3" style="margin: 20px;">
+                <input type="text" class="form-control search-name" placeholder="Search for chat here..." onkeyup="search(this.value)">
+                <div class="list-group-chat">
+                </div>
+            </div>
+        </form>
+        <hr class="border border-danger border-3 opacity-25">
+        <div class="container-fluid items">
+            {% for chat in chats_messages %}
+                {% if chat.0.user1.id == user.id %}
+                    <a href="{% url 'chat' chat.0.user2.id %}" class="chat">
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <i class="material-icons" style="font-size:70px; height:100%;">account_circle</i>
+                            </div>
+                            
+                            <div class="col-sm-9">
+                                <h3 class="head">{{chat.0.user2}}</h3>
+                                <span>{{chat.1.message}}</span>
+                            </div>
+                            <div class="col-sm-1">
+                                {{chat.1.created_at}}
+                            </div>
+                            <div class="col-sm-1">
+                                {% if chat.2 %}
+                                    <span class="notifications">
+                                        {{chat.2}}
+                                    </span>
+                                {% endif %} 
+                            </div>
+                        </div>
+                    </a>
+                {% else %}
+                    <a href="{% url 'chat' chat.0.user1.id %}" class="chat">
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <i class="material-icons" style="font-size:70px; height:100%;">account_circle</i>
+                            </div>
+                            
+                            <div class="col-sm-9">
+                                <h3 class="head">{{chat.0.user1}}</h3>
+                                <span> {{chat.1.message}} </span>
+                            </div>
+                            <div class="col-sm-1">
+                                {{chat.1.created_at}}
+                            </div>
+                            <div class="col-sm-1">
+                                {% if chat.2 %}
+                                    <span class="notifications">
+                                        {{chat.2}}
+                                    </span>
+                                {% endif %} 
+                            </div>
+                        </div>
+                    </a>
+                {% endif %} 
+            {% endfor %}
+            
+        </div>
+
+    {% else %}
+            Not signed in.
+    {% endif %}
+
+{% endblock %}
+
+
+{% block notify %}
+    {% if notificationsNum %}
+        <span class="notifications">
+            {{notificationsNum}}
+        </span>
+    {% endif %} 
+{% endblock %}
+
+

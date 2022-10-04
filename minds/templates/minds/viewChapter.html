@@ -1,0 +1,24 @@
+{% extends "minds/layout.html" %}
+
+{% block body %}
+    {% if user.is_authenticated %}  
+       <div class="chapter stories">
+            <h4>{{chapter.title}}</h4>
+            <hr>
+            <div>
+                {{chapter.content}}
+            </div>
+       </div>
+    {% else %}
+            Not signed in.
+    {% endif %}
+    
+{% endblock %}
+
+{% block notify %}
+    {% if notificationsNum %}
+        <span class="notifications">
+            {{notificationsNum}}
+        </span>
+    {% endif %} 
+{% endblock %}

@@ -1,0 +1,112 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Greate Minds{% endblock %}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'minds/styles.css' %}" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>	
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+        <script src="{% static 'minds/mind.js' %}"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body>
+        <div>
+            <!-- {% if user.is_authenticated %}
+                <a href="{% url 'profile' user.id %}"><h3  class="user">{{ user.username }}</h3></a>
+            {% else %}
+                Not signed in.
+            {% endif %} -->
+        </div>
+        <form id="search-for-user">
+            <div class="mb-3" style="margin: 20px;">
+                <input type="text" class="form-control search-name" placeholder="Search for User here..." onkeyup="searchForUser(this.value)">
+                <div class="list-group">
+                </div>
+            </div>
+        </form>
+
+        <!--  navbar -->
+        <nav class="navbar navbar-expand-lg navig">
+            <div class="container-fluid">
+                {% if user.is_authenticated %}
+                    <a class="navbar-brand" href="{% url 'profile' user.id %}">My Profile</a>
+                {% else %}
+                    Not signed in.
+                {% endif %}
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link nav-color" href="{% url 'index' %}">Stories</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle nav-color" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Write
+                                </a>
+                                <ul class="dropdown-menu menu">
+                                    <li><a class="dropdown-item" href="{% url 'write' %}">Write New Story</a></li>
+                                <li><a class="dropdown-item" href="{% url 'index' %}">My Stories</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle nav-color" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Library
+                                </a>
+                                <ul class="dropdown-menu menu">
+                                    <li><a class="dropdown-item" href="{% url 'showReadinglists' %}">Reading lists</a></li>
+                                <li><a class="dropdown-item" href="{% url 'showCurrentReads' %}">Current reads</a></li>
+                                <li><a class="dropdown-item" href="{% url 'showArchives' %}">Archive</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-color" href="{% url 'chats' %}">chats
+                                    {% block chats %}{% endblock %}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-color" href="{% url 'showNotifications' %}">Notifications
+                                    {% block notify %}{% endblock %}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-color" href="{% url 'logout' %}">Log Out</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link nav-color" href="{% url 'login' %}">Log In</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-color" href="{% url 'register' %}">Register</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <form action="{% url 'searchForStory' %}" class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" name="name" placeholder="Search for Story.." aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+          </nav>
+        <!--  -->
+        {% block body %}
+        {% endblock %}
+        <!-- JavaScript Bundle with Popper -->
+        <script
+                src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+                crossorigin="anonymous">
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
+    </body>
+</html>

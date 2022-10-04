@@ -1,0 +1,35 @@
+{% extends "minds/layout.html" %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+        <div class="stories">
+            <form action = "{% url 'writeChapter' sid cid %}" method = "post">
+                {% csrf_token %}
+                <button type="submit" class="submit">Publish</button>
+                <br>
+                <div class="mb-3">
+                    <h4>
+                        <br>
+                        <input type="text" name="title" class="form-control" value="Untitled Chapter {{cid}}">
+                    </h4>
+                </div>
+                <div class="mb-3">
+                    <textarea class="form-control" name="content" rows="100" autofocus></textarea>
+                </div>
+            </form>
+        </div>  
+    {% else %}
+            Not signed in.
+    {% endif %}
+    
+{% endblock %}
+
+{% block title %}Greate Minds -Write{% endblock %}
+
+{% block notify %}
+    {% if notificationsNum %}
+        <span class="notifications">
+            {{notificationsNum}}
+        </span>
+    {% endif %} 
+{% endblock %}

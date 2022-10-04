@@ -1,0 +1,47 @@
+{% extends "minds/layout.html" %}
+
+{% block body %}
+
+    {% if user.is_authenticated %}  
+        <div class="stories">
+            {% for story in stories %}
+                <div class="row story">
+                    <div class="col-md-4">
+                        {% if story.story.cover.name != "0"  %}
+                            <img src="../../../media/{{story.story.cover}}" alt ="image" class = "shadow p-3 mb-5 bg-white rounded images">
+                        {% else %}
+                            <img src="/static/images/cover.png" alt ="image" class = "shadow p-3 mb-5 bg-white rounded images">
+                        {% endif %} 
+                    </div>
+                    <div class="col-md-8">
+                        <h4 class="head">Story Details</h4>
+                        <hr>
+                        <a href="{% url 'story' story.story.id %}" class="btn btn-primary">View Story</a>
+                        <hr>
+                        <h5>Written By: <a href="">{{story.story.writer.username}}</a></h5>
+                        <h5>Title: <strong>{{story.story.title}}</strong></h5>
+                        <p>
+                            <h5>Description:</h5>
+                            {{story.story.description}}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+            Not signed in.
+    {% endif %}
+
+
+{% endblock %}
+
+{% block title %}Greate Minds -ReadList{% endblock %}
+
+
+{% block notify %}
+    {% if notificationsNum %}
+        <span class="notifications">
+            {{notificationsNum}}
+        </span>
+    {% endif %} 
+{% endblock %}
